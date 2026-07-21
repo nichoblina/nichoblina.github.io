@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nicholai Oblina</title>
+  <meta name="description" content="Nicholai Oblina — developer and builder. Creator of kwek.cards. Websites for small businesses." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>" />
+  <style>
+    /* ============================================
+       Notion-like theme. Light + dark via .dark on <html>
+       ============================================ */
+    :root {
+      --bg: #ffffff;
+      --ink: rgb(55, 53, 47);
+      --muted: rgba(55, 53, 47, 0.65);
+      --faint: rgba(55, 53, 47, 0.4);
+      --line: rgba(55, 53, 47, 0.09);
+      --hover: rgba(55, 53, 47, 0.06);
+      --callout-bg: #f7f6f3;
+      --code-bg: rgba(135, 131, 120, 0.15);
+      --code-ink: #eb5757;
+      --link: rgb(55, 53, 47);
+      /* Notion-ish tag pastels */
+      --tag-gray-bg: rgba(227,226,224,.7);  --tag-gray-ink: rgb(50,48,44);
+      --tag-blue-bg: rgb(211,229,239);      --tag-blue-ink: rgb(24,51,71);
+      --tag-green-bg: rgb(219,237,219);     --tag-green-ink: rgb(28,56,41);
+      --tag-yellow-bg: rgb(253,236,201);    --tag-yellow-ink: rgb(64,44,27);
+      --tag-red-bg: rgb(255,226,221);       --tag-red-ink: rgb(93,23,21);
+      --tag-purple-bg: rgb(232,222,238);    --tag-purple-ink: rgb(65,36,84);
+      --cover: linear-gradient(120deg, #d9e6f2 0%, #ece4d9 50%, #e4ded1 100%);
+    }
+    html.dark {
+      --bg: #191919;
+      --ink: rgba(255, 255, 255, 0.87);
+      --muted: rgba(255, 255, 255, 0.5);
+      --faint: rgba(255, 255, 255, 0.3);
+      --line: rgba(255, 255, 255, 0.1);
+      --hover: rgba(255, 255, 255, 0.055);
+      --callout-bg: #252525;
+      --code-bg: rgba(135, 131, 120, 0.25);
+      --code-ink: #ff7369;
+      --link: rgba(255, 255, 255, 0.87);
+      --tag-gray-bg: rgb(71,70,68);   --tag-gray-ink: rgba(255,255,255,.85);
+      --tag-blue-bg: rgb(40,69,108);  --tag-blue-ink: rgb(211,229,239);
+      --tag-green-bg: rgb(43,89,63);  --tag-green-ink: rgb(219,237,219);
+      --tag-yellow-bg: rgb(137,101,62); --tag-yellow-ink: rgb(253,236,201);
+      --tag-red-bg: rgb(110,54,48);   --tag-red-ink: rgb(255,226,221);
+      --tag-purple-bg: rgb(83,55,104);--tag-purple-ink: rgb(232,222,238);
+      --cover: linear-gradient(120deg, #1f2c3a 0%, #2e2a24 50%, #26241f 100%);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.6; font-size: 16px;
+      transition: background 0.2s, color 0.2s;
+    }
+    a { color: var(--link); text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--muted); background: var(--hover); border-radius: 3px; }
+
+    /* ---------- Cover + avatar ---------- */
+    .cover { height: 210px; background: var(--cover); }
+    .page { max-width: 720px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+    .avatar-wrap { margin-top: -52px; margin-bottom: 0.75rem; }
+    .avatar-stack { position: relative; width: 104px; height: 104px; }
+    .avatar, .avatar-fallback {
+      width: 104px; height: 104px; border-radius: 6px;
+      border: 4px solid var(--bg); background: var(--bg);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      position: absolute; inset: 0;
+    }
+    .avatar { object-fit: cover; display: block; transition: opacity 0.6s ease; }
+    .avatar.real { opacity: 0; z-index: 1; object-position: 50% 20%; }
+    .avatar-stack.show-real .avatar.real { opacity: 1; }
+    .avatar-fallback {
+      display: none; align-items: center; justify-content: center;
+      font-size: 2.6rem; font-weight: 700; background: var(--callout-bg); color: var(--muted);
+    }
+
+    /* ---------- Typography ---------- */
+    h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.35rem; }
+    .subtitle { color: var(--muted); font-size: 1.05rem; margin-bottom: 1.75rem; }
+    h2 { font-size: 1.4rem; font-weight: 600; margin: 2.6rem 0 0.8rem; letter-spacing: -0.005em; }
+    h2 .icon { margin-right: 0.4rem; }
+    p { margin-bottom: 0.7rem; }
+    hr { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
+    code { background: var(--code-bg); color: var(--code-ink); border-radius: 4px; padding: 0.15em 0.4em; font-size: 0.85em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    /* ---------- Property rows (like Notion page properties) ---------- */
+    .props { margin: 1.25rem 0 0.5rem; font-size: 0.92rem; }
+    .prop { display: flex; align-items: baseline; padding: 0.28rem 0; }
+    .prop .key { width: 130px; flex-shrink: 0; color: var(--faint); display: flex; align-items: center; gap: 0.45rem; }
+    .prop .key svg { width: 15px; height: 15px; stroke: var(--faint); transform: translateY(2px); }
+    .prop .val { color: var(--ink); }
+
+    /* ---------- Callout ---------- */
+    .callout {
+      display: flex; gap: 0.75rem; background: var(--callout-bg);
+      border-radius: 6px; padding: 1rem 1.1rem; margin: 1.25rem 0;
+    }
+    .callout .emoji { font-size: 1.25rem; line-height: 1.4; }
+    .callout p { margin: 0; }
+    .callout p + p { margin-top: 0.5rem; }
+
+    /* ---------- Tags ---------- */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.4rem 0 0.9rem; }
+    .tag { font-size: 0.8rem; padding: 0.1rem 0.55rem; border-radius: 4px; white-space: nowrap; }
+    .tag.gray   { background: var(--tag-gray-bg);   color: var(--tag-gray-ink); }
+    .tag.blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-ink); }
+    .tag.green  { background: var(--tag-green-bg);  color: var(--tag-green-ink); }
+    .tag.yellow { background: var(--tag-yellow-bg); color: var(--tag-yellow-ink); }
+    .tag.red    { background: var(--tag-red-bg);    color: var(--tag-red-ink); }
+    .tag.purple { background: var(--tag-purple-bg); color: var(--tag-purple-ink); }
+    .tag-label { font-size: 0.85rem; color: var(--faint); width: 90px; flex-shrink: 0; padding-top: 0.05rem; }
+    .tag-row { display: flex; align-items: flex-start; margin-bottom: 0.35rem; }
+
+    /* ---------- Project blocks (Notion page-link style) ---------- */
+    .project {
+      display: block; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 8px;
+      margin-bottom: 0.75rem; text-decoration: none; transition: background 0.15s;
+    }
+    .project:hover { background: var(--hover); }
+    .project .title { font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+    .project .title .ext { color: var(--faint); font-size: 0.8rem; font-weight: 400; }
+    .project .desc { color: var(--muted); font-size: 0.92rem; margin-top: 0.2rem; }
+    .project .tags { margin: 0.55rem 0 0; }
+
+    /* ---------- Toggle (details) ---------- */
+    details { margin: 0.4rem 0 0.9rem; }
+    summary {
+      cursor: pointer; font-weight: 500; padding: 0.3rem 0.4rem; border-radius: 4px;
+      list-style: none; display: flex; align-items: center; gap: 0.45rem;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "▸"; color: var(--faint); font-size: 0.8rem; transition: transform 0.15s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    summary:hover { background: var(--hover); }
+    details .body { padding: 0.3rem 0 0.3rem 1.5rem; color: var(--muted); font-size: 0.95rem; }
+    details .body li { margin-bottom: 0.35rem; }
+    details .body ul { list-style: none; }
+
+    /* ---------- Checkbox list (Notion to-dos) ---------- */
+    .todo { list-style: none; }
+    .todo li { display: flex; gap: 0.6rem; align-items: baseline; padding: 0.22rem 0; }
+    .todo .box {
+      width: 15px; height: 15px; border: 1.5px solid var(--muted); border-radius: 3px;
+      flex-shrink: 0; transform: translateY(2px); display: inline-flex; align-items: center; justify-content: center;
+    }
+    .todo .box.done { background: #2383e2; border-color: #2383e2; }
+    .todo .box.done::after { content: "✓"; color: #fff; font-size: 0.65rem; font-weight: 700; }
+    .todo .done-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--faint); }
+
+    /* ---------- Bulleted list ---------- */
+    .bullets { list-style: none; margin-bottom: 0.9rem; }
+    .bullets li { padding: 0.2rem 0 0.2rem 1.4rem; position: relative; }
+    .bullets li::before { content: "•"; position: absolute; left: 0.45rem; color: var(--ink); }
+
+    /* ---------- Theme toggle ---------- */
+    .theme-toggle {
+      position: fixed; top: 14px; right: 14px; z-index: 10;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+      width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .theme-toggle:hover { background: var(--hover); }
+    .theme-toggle svg { width: 17px; height: 17px; stroke: currentColor; }
+    html.dark .sun { display: block; } html.dark .moon { display: none; }
+    .sun { display: none; } .moon { display: block; }
+
+    footer { margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.85rem; }
+
+    /* ---------- Notion-style topbar (breadcrumb) ---------- */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.55rem 1rem; padding-right: 60px; /* clear the fixed theme toggle */
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .topbar .crumbs { display: flex; align-items: center; gap: 0.4rem; }
+    .topbar .crumbs .sep { color: var(--faint); }
+    .topbar .crumbs .here { color: var(--ink); }
+    .topbar .meta { display: flex; align-items: center; gap: 1rem; }
+    .topbar .meta .edited { color: var(--faint); }
+    .topbar a { text-decoration: none; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .topbar a:hover { background: var(--hover); }
+
+    /* ---------- Copy button + toast ---------- */
+    .copy-btn {
+      background: none; border: 1px solid var(--line); border-radius: 4px; cursor: pointer;
+      color: var(--muted); padding: 0.1rem 0.35rem; margin-left: 0.4rem; vertical-align: 1px;
+      display: inline-flex; align-items: center;
+    }
+    .copy-btn:hover { background: var(--hover); }
+    .copy-btn svg { width: 13px; height: 13px; stroke: currentColor; }
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(10px);
+      background: var(--ink); color: var(--bg); padding: 0.5rem 1.1rem; border-radius: 6px;
+      font-size: 0.85rem; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 300;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Gentle page fade-in */
+    @media (prefers-reduced-motion: no-preference) {
+      body { animation: pagefade 0.45s ease; }
+      @keyframes pagefade { from { opacity: 0; } to { opacity: 1; } }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.9rem; }
+      .cover { height: 140px; }
+      .prop { flex-direction: column; }
+      .prop .key { width: auto; margin-bottom: 0.05rem; }
+      .tag-row { flex-direction: column; }
+      .tag-label { width: auto; margin-bottom: 0.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
+    <svg class="moon" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="sun" fill="none" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  </button>
+
+  <div class="topbar">
+    <div class="crumbs">🥚 <span>Nicho's Space</span> <span class="sep">/</span> <span class="here">Portfolio</span></div>
+    <div class="meta">
+      <span class="edited" id="edited"></span>
+      <a href="../">View as website ↗</a>
+    </div>
+  </div>
+
+  <div class="cover"></div>
+
+  <main class="page">
+    <div class="avatar-wrap">
+      <!-- ../me.png = Notion-style doodle, ../me2.jpg = the real deal. Auto-swaps; hover pins the real one. -->
+      <div class="avatar-stack" id="avatar-stack" title="Hover for the real me">
+        <img class="avatar" src="../me.png" alt="Nicholai Oblina, doodle version" width="1024" height="1024" decoding="async"
+             onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';" />
+        <img class="avatar real" src="../me2.jpg" alt="Nicholai Oblina" width="500" height="750" fetchpriority="high" decoding="async"
+             onerror="this.remove(); window.__noRealPhoto = true;" />
+        <div class="avatar-fallback" id="avatar-fallback">N</div>
+      </div>
+    </div>
+
+    <h1>Nicholai Oblina</h1>
+    <p class="subtitle">Developer &amp; builder — I make studying and small businesses look good on the internet.</p>
+
+    <div class="props">
+      <div class="prop">
+        <span class="key"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Location</span>
+        <span class="val">Philippines</span>
+      </div>
+      <div class="prop">
+        <span class="key"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6L22 7"/></svg>Email</span>
+        <span class="val"><a href="mailto:nichobusiness17@gmail.com">nichobusiness17@gmail.com</a><button class="copy-btn" onclick="copyEmail()" title="Copy email" aria-label="Copy email"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></span>
+      </div>
+      <div class="prop">
+        <span class="key"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Status</span>
+        <span class="val"><span class="tag green">Open to freelance projects</span></span>
+      </div>
+      <div class="prop">
+        <span class="key"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Links</span>
+        <!-- Update with your real profiles -->
+        <span class="val"><a href="https://kwek.cards">kwek.cards</a> · <a href="#">GitHub</a> · <a href="#">LinkedIn</a></span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="emoji">👋</div>
+      <div>
+        <p>Hi, I'm Nicho. I build web apps end-to-end — design, frontend, backend, deploy — and I like shipping fast without shipping ugly.</p>
+        <p>My main project is <a href="https://kwek.cards">kwek.cards</a>, an AI-powered study platform. On the side, I build clean, fast websites for small businesses.</p>
+      </div>
+    </div>
+
+    <h2><span class="icon">🚀</span>Projects</h2>
+
+    <a class="project" href="https://kwek.cards">
+      <div class="title">kwek.cards <span class="ext">↗ live</span></div>
+      <div class="desc">AI-powered flashcards, quizzes, and community deck sharing. Paste your notes or upload a file — kwek turns them into study material in seconds. Full-stack solo build: auth, offline-first storage with cloud sync, AI generation with guardrails, and a community hub for sharing decks.</div>
+      <div class="tags">
+        <span class="tag blue">Next.js 15</span><span class="tag blue">TypeScript</span><span class="tag green">Supabase</span><span class="tag purple">AI · Groq</span><span class="tag yellow">Tailwind</span>
+      </div>
+    </a>
+
+    <a class="project" href="#contact">
+      <div class="title">Small-business website kit</div>
+      <div class="desc">A set of four production-ready website templates (café, trades, salon, gym) plus deployment, pricing, and sales playbooks. Single-file HTML, loads instantly, free to host — built for Philippine small businesses that live on Facebook but deserve a real website.</div>
+      <div class="tags">
+        <span class="tag yellow">HTML/CSS</span><span class="tag gray">Static sites</span><span class="tag red">Freelance</span>
+      </div>
+    </a>
+
+    <details>
+      <summary>More in the lab</summary>
+      <div class="body">
+        <ul>
+          <li>📱 <strong>kwek mobile</strong> — React Native / Expo companion app for kwek.cards (in progress)</li>
+          <li>🧪 Assorted experiments — this portfolio is one of them: a single HTML file styled like Notion, with a working dark mode</li>
+        </ul>
+      </div>
+    </details>
+
+    <hr />
+
+    <h2><span class="icon">🧰</span>Skills</h2>
+    <div class="tag-row"><span class="tag-label">Frontend</span><div class="tags" style="margin:0;"><span class="tag blue">React</span><span class="tag blue">Next.js</span><span class="tag blue">TypeScript</span><span class="tag yellow">Tailwind CSS</span><span class="tag gray">HTML/CSS</span></div></div>
+    <div class="tag-row"><span class="tag-label">Backend</span><div class="tags" style="margin:0;"><span class="tag green">Supabase</span><span class="tag green">PostgreSQL</span><span class="tag gray">Node.js</span><span class="tag gray">REST APIs</span></div></div>
+    <div class="tag-row"><span class="tag-label">AI</span><div class="tags" style="margin:0;"><span class="tag purple">LLM integration</span><span class="tag purple">Groq</span><span class="tag purple">Prompt design</span></div></div>
+    <div class="tag-row"><span class="tag-label">Tools</span><div class="tags" style="margin:0;"><span class="tag gray">Git</span><span class="tag gray">Vercel</span><span class="tag gray">Netlify</span><span class="tag red">Figma-free design</span></div></div>
+
+    <hr />
+
+    <h2><span class="icon">💼</span>Websites for small businesses</h2>
+    <p>I design, build, and launch websites for cafés, gyms, salons, and service businesses — live within a week, almost zero monthly cost.</p>
+    <ul class="bullets">
+      <li><strong>Starter</strong> — a sharp one-page site with your branding, live on your own domain</li>
+      <li><strong>Standard</strong> — adds contact/Messenger integration, Google Maps, and your Google Business Profile</li>
+      <li><strong>Premium</strong> — multi-page site with booking integration and local SEO</li>
+    </ul>
+    <p style="color: var(--muted); font-size: 0.92rem;">Want to see what your business could look like? <a href="#contact">Message me</a> — I'll make you a free demo before you pay anything.</p>
+
+    <hr />
+
+    <h2><span class="icon">🎯</span>Now</h2>
+    <ul class="todo">
+      <li><span class="box done"></span><span class="done-text">Launch kwek community deck sharing</span></li>
+      <li><span class="box"></span><span>Building the kwek mobile app (Expo)</span></li>
+      <li><span class="box"></span><span>Taking on freelance website clients</span></li>
+    </ul>
+
+    <hr />
+
+    <h2 id="contact"><span class="icon">📬</span>Contact</h2>
+    <div class="callout">
+      <div class="emoji">⚡</div>
+      <div>
+        <p>Fastest way to reach me: <a href="mailto:nichobusiness17@gmail.com">nichobusiness17@gmail.com</a></p>
+        <p style="color: var(--muted); font-size: 0.92rem;">Freelance inquiries, kwek feedback, or just to say hi — I reply within a day.</p>
+      </div>
+    </div>
+
+    <footer>
+      © <span id="year"></span> Nicholai Oblina · This page is a single HTML file — no builder, no framework, loads in milliseconds.
+      · <a href="../">Prefer a regular website? →</a>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Email copied ✓</div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Notion-style "Edited" date in the topbar (uses the file's last-modified date)
+    const lastMod = new Date(document.lastModified);
+    if (!isNaN(lastMod)) {
+      document.getElementById('edited').textContent =
+        'Edited ' + lastMod.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+
+    let toastTimer;
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+    }
+    function copyEmail() {
+      const email = 'nichobusiness17@gmail.com';
+      navigator.clipboard.writeText(email).then(showToast).catch(function () {
+        const ta = document.createElement('textarea');
+        ta.value = email; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+        showToast();
+      });
+    }
+
+    function toggleTheme() {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+    // Respect saved choice, else system preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Avatar: auto-crossfade doodle <-> real photo; hovering pins the real one
+    (function () {
+      const stack = document.getElementById('avatar-stack');
+      let hovering = false, showingReal = false;
+      setInterval(function () {
+        if (hovering || window.__noRealPhoto) return;
+        showingReal = !showingReal;
+        stack.classList.toggle('show-real', showingReal);
+      }, 4000);
+      stack.addEventListener('mouseenter', function () {
+        if (window.__noRealPhoto) return;
+        hovering = true; stack.classList.add('show-real');
+      });
+      stack.addEventListener('mouseleave', function () {
+        hovering = false; stack.classList.toggle('show-real', showingReal);
+      });
+    })();
+  </script>
+</body>
+</html>
