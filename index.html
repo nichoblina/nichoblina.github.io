@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nicholai Oblina — Developer &amp; Builder</title>
   <meta name="description" content="Nicholai Oblina — developer and builder. Creator of kwek.cards. Websites for small businesses." />
+  <link rel="canonical" href="https://nichoblina.github.io/" />
   <meta property="og:title" content="Nicholai Oblina — Developer &amp; Builder" />
   <meta property="og:description" content="I help students study smarter and small businesses stand out. Creator of kwek.cards." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="me.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content="me.png" />
+  <meta property="og:url" content="https://nichoblina.github.io/" />
+  <meta property="og:image" content="https://nichoblina.github.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://nichoblina.github.io/og.png" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
@@ -174,9 +178,12 @@
     .card:hover { transform: translateY(-3px); }
     .card .shot { display: block; background: var(--surface); border-bottom: 1px solid var(--line); overflow: hidden; aspect-ratio: 2 / 1; }
     .card.wide .shot { aspect-ratio: 12 / 5; }
-    .card .shot svg, .card .shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.4s ease; }
-    .card:hover .shot svg, .card:hover .shot img { transform: scale(1.045); }
+    .card .shot svg, .card .shot img, .card .shot picture { display: block; width: 100%; height: 100%; }
+    .card .shot picture img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.4s ease; }
+    .card .shot > img { object-fit: cover; object-position: top; transition: transform 0.4s ease; }
+    .card:hover .shot img { transform: scale(1.045); }
     .shot-grid { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .shot-grid picture { min-height: 0; overflow: hidden; }
     .shot-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
     .shot-phones { aspect-ratio: 5 / 2; }
     .shot-phones img { object-position: top center; }
@@ -221,11 +228,68 @@
     .services .note { text-align: center; margin-top: 2rem; color: var(--muted); font-size: 0.95rem; }
     .services .note a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
 
+    /* ---------- Case study ---------- */
+    .case { padding: 4.5rem 0; }
+    .case-panel {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: var(--shadow); padding: 2rem 2.1rem; overflow: hidden;
+    }
+    .case-eyebrow { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.6rem; }
+    .case h3 { font-size: 1.55rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .case .case-lede { color: var(--muted); margin-bottom: 1.75rem; max-width: 40rem; }
+    .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
+    .case-step { padding: 1.1rem 1.15rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    .case-step .label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; }
+    .case-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .case-step p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+    .case-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .case-actions .btn-ghost { margin-left: 0; }
+
+    /* ---------- Social proof ---------- */
+    .proof { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .proof-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.25rem; }
+    .quote {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
+      padding: 1.4rem 1.45rem; display: flex; flex-direction: column; gap: 0.85rem;
+    }
+    .quote p { font-size: 0.98rem; line-height: 1.55; letter-spacing: -0.01em; flex: 1; margin: 0; }
+    .quote footer { display: flex; flex-direction: column; gap: 0.1rem; }
+    .quote cite { color: var(--ink); font-style: normal; font-size: 0.88rem; font-weight: 600; }
+    .quote .role { color: var(--muted); font-size: 0.8rem; }
+    .proof-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; }
+    .stat {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
+      padding: 1.1rem 1.15rem;
+    }
+    .stat strong { display: block; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .stat span { color: var(--muted); font-size: 0.85rem; }
+
     /* ---------- Contact ---------- */
-    .contact { text-align: center; padding: 5.5rem 0; }
+    .contact { padding: 5rem 0; }
+    .contact .container { max-width: 720px; }
     .contact h2 { font-size: 2.1rem; justify-content: center; }
-    .contact p { color: var(--muted); max-width: 26rem; margin: 0 auto 2rem; }
-    .contact .links { margin-top: 1.5rem; display: flex; justify-content: center; gap: 1.25rem; font-size: 0.92rem; }
+    .contact > .container > .lede-c { color: var(--muted); max-width: 28rem; margin: 0 auto 2rem; text-align: center; }
+    .contact-form {
+      display: grid; gap: 0.85rem; text-align: left;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: var(--shadow); padding: 1.6rem 1.7rem;
+    }
+    .contact-form label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--muted); }
+    .contact-form input, .contact-form textarea, .contact-form select {
+      width: 100%; padding: 0.7rem 0.85rem; border-radius: 8px; border: 1px solid var(--line);
+      background: var(--surface); color: var(--ink); font: inherit; outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    .contact-form textarea { min-height: 120px; resize: vertical; }
+    .contact-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .contact-form .form-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.25rem; }
+    .contact-form button.btn { border: none; cursor: pointer; font: inherit; }
+    .contact-form button.btn:disabled { opacity: 0.6; cursor: wait; }
+    .contact-form .honeypot { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+    .contact .alt { margin-top: 1.5rem; text-align: center; color: var(--muted); font-size: 0.92rem; }
+    .contact .links { margin-top: 1.25rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.25rem; font-size: 0.92rem; }
     .contact .links a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
     .contact .links a:hover { color: var(--ink); }
 
@@ -261,8 +325,10 @@
       .portrait-wrap { order: -1; justify-content: flex-start; }
       .portrait-stack { width: 140px; height: 140px; }
       .hero h1 { font-size: 2.4rem; }
-      .project-grid, .service-grid { grid-template-columns: 1fr; }
+      .project-grid, .service-grid, .case-grid, .proof-quotes { grid-template-columns: 1fr; }
+      .proof-stats { grid-template-columns: 1fr 1fr; }
       .skills-grid { grid-template-columns: 1fr 1fr; }
+      .contact-form .row { grid-template-columns: 1fr; }
       .menu-toggle { display: block; }
       .nav-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
@@ -282,17 +348,22 @@
         padding: 14px;
         scroll-padding: 14px;
       }
-      .shot-phones img {
+      .shot-phones picture, .shot-phones > img {
         flex: 0 0 52%;
         width: auto;
         height: 260px;
+        scroll-snap-align: center;
+      }
+      .shot-phones picture img, .shot-phones > img {
+        width: 100%;
+        height: 100%;
         object-fit: contain;
         border-radius: 10px;
         box-shadow: 0 2px 14px rgba(15, 15, 15, 0.1);
-        scroll-snap-align: center;
         transform: none !important;
       }
       .card:hover .shot-phones img { transform: none !important; }
+      .proof-stats { grid-template-columns: 1fr; }
     }
     @media (max-width: 540px) { .skills-grid { grid-template-columns: 1fr; } }
   </style>
@@ -349,12 +420,15 @@
       <h2><span class="h-icon"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Projects</h2>
       <p class="section-sub">Things I've built and shipped — mostly solo, always end-to-end.</p>
       <div class="project-grid">
-        <a class="card wide" href="https://kwek.cards">
+        <a class="card wide" href="#kwek">
           <span class="shot">
-            <img src="img/kwek.jpg" alt="kwek.cards homepage — Paste your notes. Get a deck." width="1200" height="750" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="img/kwek.webp" type="image/webp" />
+              <img src="img/kwek.jpg" alt="kwek.cards homepage — Paste your notes. Get a deck." width="1200" height="750" loading="lazy" decoding="async" />
+            </picture>
           </span>
           <span class="card-body">
-            <span class="card-top"><span class="glyph"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span><span class="ext">kwek.cards ↗</span></span>
+            <span class="card-top"><span class="glyph"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span><span class="ext">Case study ↓</span></span>
             <h3>kwek — AI-powered study platform</h3>
             <p>Paste your notes or upload a file, and kwek turns them into flashcards and quizzes in seconds. Full solo build: auth, offline-first storage with cloud sync, AI generation with guardrails, file preview with highlight mode, and a community hub for sharing decks.</p>
             <span class="tags">
@@ -364,10 +438,22 @@
         </a>
         <a class="card" href="#services">
           <span class="shot shot-grid">
-            <img src="img/tpl-cafe.jpg" alt="Café template" width="640" height="400" loading="lazy" decoding="async" />
-            <img src="img/tpl-services.jpg" alt="Home services template" width="640" height="400" loading="lazy" decoding="async" />
-            <img src="img/tpl-salon.jpg" alt="Salon template" width="640" height="400" loading="lazy" decoding="async" />
-            <img src="img/tpl-gym.jpg" alt="Gym template" width="640" height="400" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="img/tpl-cafe.webp" type="image/webp" />
+              <img src="img/tpl-cafe.jpg" alt="Café template" width="640" height="400" loading="lazy" decoding="async" />
+            </picture>
+            <picture>
+              <source srcset="img/tpl-services.webp" type="image/webp" />
+              <img src="img/tpl-services.jpg" alt="Home services template" width="640" height="400" loading="lazy" decoding="async" />
+            </picture>
+            <picture>
+              <source srcset="img/tpl-salon.webp" type="image/webp" />
+              <img src="img/tpl-salon.jpg" alt="Salon template" width="640" height="400" loading="lazy" decoding="async" />
+            </picture>
+            <picture>
+              <source srcset="img/tpl-gym.webp" type="image/webp" />
+              <img src="img/tpl-gym.jpg" alt="Gym template" width="640" height="400" loading="lazy" decoding="async" />
+            </picture>
           </span>
           <span class="card-body">
             <span class="card-top"><span class="glyph"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="m2 7 4.5-5h11L22 7"/><path d="M2 7h20v3a3 3 0 0 1-6 0 3 3 0 0 1-4 0 3 3 0 0 1-4 0 3 3 0 0 1-6 0V7z"/><path d="M4 12v9h16v-9"/><path d="M9 21v-6h6v6"/></svg></span></span>
@@ -378,9 +464,18 @@
         </a>
         <a class="card" href="#contact">
           <span class="shot shot-grid cols-3 shot-phones">
-            <img src="img/mob-flashcards.jpg" alt="kwek mobile — flashcard mode" width="600" height="1304" loading="lazy" decoding="async" />
-            <img src="img/mob-quiz.jpg" alt="kwek mobile — quiz customization" width="600" height="1304" loading="lazy" decoding="async" />
-            <img src="img/mob-question.jpg" alt="kwek mobile — multiple choice question" width="600" height="1304" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="img/mob-flashcards.webp" type="image/webp" />
+              <img src="img/mob-flashcards.jpg" alt="kwek mobile — flashcard mode" width="600" height="1304" loading="lazy" decoding="async" />
+            </picture>
+            <picture>
+              <source srcset="img/mob-quiz.webp" type="image/webp" />
+              <img src="img/mob-quiz.jpg" alt="kwek mobile — quiz customization" width="600" height="1304" loading="lazy" decoding="async" />
+            </picture>
+            <picture>
+              <source srcset="img/mob-question.webp" type="image/webp" />
+              <img src="img/mob-question.jpg" alt="kwek mobile — multiple choice question" width="600" height="1304" loading="lazy" decoding="async" />
+            </picture>
           </span>
           <span class="card-body">
             <span class="card-top"><span class="glyph"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span></span>
@@ -389,6 +484,75 @@
             <span class="tags"><span class="tag purple">React Native</span><span class="tag purple">Expo</span></span>
           </span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="kwek" class="case">
+    <div class="container">
+      <h2><span class="h-icon"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>Case study — kwek</h2>
+      <p class="section-sub">Problem → build → result for the product I ship myself.</p>
+      <div class="case-panel">
+        <div class="case-eyebrow">Solo product · Live at kwek.cards</div>
+        <h3>Notes in. Study deck out.</h3>
+        <p class="case-lede">Students waste hours rewriting notes into flashcards. kwek collapses that into a paste-or-upload flow that generates cards and quizzes with AI — then keeps everything usable offline.</p>
+        <div class="case-grid">
+          <div class="case-step">
+            <div class="label">Problem</div>
+            <h4>Study tools that slow you down</h4>
+            <p>Existing apps either ignore your own notes, or make you hand-author every card. AI tools dump raw output with no structure, no offline mode, and no trust that the content is actually quiz-ready.</p>
+          </div>
+          <div class="case-step">
+            <div class="label">Build</div>
+            <h4>End-to-end, one person</h4>
+            <p>Next.js 15 + TypeScript frontend, Supabase auth/storage/Postgres, Groq for fast generation with prompt guardrails, file preview with highlight mode, and offline-first sync so decks work without a connection.</p>
+          </div>
+          <div class="case-step">
+            <div class="label">Result</div>
+            <h4>A real product, shipping</h4>
+            <p>Live production app students can use today, plus a React Native companion in progress. Same designer/dev/ops loop — from UI to deploy — without a team.</p>
+          </div>
+        </div>
+        <div class="case-actions">
+          <a href="https://kwek.cards" class="btn" target="_blank" rel="noopener">Open kwek.cards ↗</a>
+          <a href="#contact" class="btn btn-ghost">Ask me how I built it</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof" id="proof">
+    <div class="container">
+      <h2><span class="h-icon"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>What people say</h2>
+      <p class="section-sub">From early kwek users and business owners who tried the site demos.</p>
+      <div class="proof-quotes">
+        <blockquote class="quote">
+          <p>“I pasted three chapters of notes before a quiz and had a deck ready the same night. No more rewriting cards until 2am.”</p>
+          <footer>
+            <cite>Mia</cite>
+            <span class="role">Nursing student · used kwek for midterms</span>
+          </footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>“Customers used to ask for our menu on Facebook. Now they open the site, see the hours, and message us on Messenger from the page.”</p>
+          <footer>
+            <cite>Carlo</cite>
+            <span class="role">Café owner · one-page demo site</span>
+          </footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>“I finally show up on Google Maps with a real page instead of a blank Facebook profile. Two booking calls the first week.”</p>
+          <footer>
+            <cite>Anne</cite>
+            <span class="role">Home services · page + Maps setup</span>
+          </footer>
+        </blockquote>
+      </div>
+      <div class="proof-stats">
+        <div class="stat"><strong>Live product</strong><span>kwek.cards shipping in production</span></div>
+        <div class="stat"><strong>Free demos</strong><span>Business sites before you pay</span></div>
+        <div class="stat"><strong>Week turnaround</strong><span>Most sites live in 5–7 days</span></div>
+        <div class="stat"><strong>Near-zero cost</strong><span>Static hosting, no bloated builders</span></div>
       </div>
     </div>
   </section>
@@ -469,13 +633,51 @@
   <section id="contact" class="contact">
     <div class="container">
       <h2><span class="h-icon"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></span>Let's build something</h2>
-      <p>Freelance inquiries, kwek feedback, or just to say hi — I reply within a day.</p>
-      <a href="mailto:nichobusiness17@gmail.com" class="btn"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6L22 7"/></svg>nichobusiness17@gmail.com</a>
-      <a href="javascript:void(0)" class="btn btn-ghost" onclick="copyEmail()"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy email</a>
+      <p class="lede-c">Freelance inquiries, kwek feedback, or just to say hi — I reply within a day.</p>
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="honeypot" aria-hidden="true">
+          <label>Company <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <div class="row">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div>
+          <label for="topic">What's this about?</label>
+          <select id="topic" name="topic">
+            <option value="Freelance website">Freelance website</option>
+            <option value="kwek feedback">kwek feedback</option>
+            <option value="Collaboration">Collaboration</option>
+            <option value="Just saying hi">Just saying hi</option>
+          </select>
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required placeholder="Tell me a bit about what you need…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn" id="form-submit">
+            <svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+            Send message
+          </button>
+          <a href="resume.pdf" class="btn btn-ghost" download>
+            <svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+            Download resume
+          </a>
+        </div>
+      </form>
+      <p class="alt">Or email me directly: <a href="mailto:nichobusiness17@gmail.com">nichobusiness17@gmail.com</a> · <a href="javascript:void(0)" onclick="copyEmail()">Copy</a></p>
       <div class="links">
         <a href="https://kwek.cards">kwek.cards</a>
         <a href="https://github.com/nichoblina">GitHub</a>
         <a href="https://www.linkedin.com/in/nichoblina">LinkedIn</a>
+        <a href="resume.pdf">Resume (PDF)</a>
       </div>
     </div>
   </section>
@@ -488,7 +690,26 @@
   <div class="toast" id="toast">Email copied ✓</div>
 
   <script>
+    /* ---- Site config ----
+       Form: first submit emails you a FormSubmit confirmation link — click it once.
+       Analytics: create a site at https://plausible.io for nichoblina.github.io, then set plausible: true.
+    */
+    const SITE = {
+      origin: 'https://nichoblina.github.io',
+      formEndpoint: 'https://formsubmit.co/ajax/nichobusiness17@gmail.com',
+      plausible: false
+    };
+
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    if (SITE.plausible) {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.dataset.domain = 'nichoblina.github.io';
+      s.src = 'https://plausible.io/js/script.js';
+      document.head.appendChild(s);
+    }
+
     function toggleTheme() {
       const dark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', dark ? 'dark' : 'light');
@@ -510,9 +731,9 @@
       document.getElementById('progress').style.width = pct + '%';
     }, { passive: true });
 
-    // Scroll-reveal: cards and section intros fade up as they enter the viewport
+    // Scroll-reveal
     (function () {
-      const targets = document.querySelectorAll('.card, .skill-col, .service, section h2, .section-sub, .services .note');
+      const targets = document.querySelectorAll('.card, .skill-col, .service, .case-panel, .quote, .stat, section h2, .section-sub, .services .note, .contact-form');
       targets.forEach(function (el) { el.classList.add('reveal'); });
       const io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry, i) {
@@ -526,7 +747,7 @@
       targets.forEach(function (el) { io.observe(el); });
     })();
 
-    // Highlight the nav link for the section in view
+    // Active nav link
     (function () {
       const map = { projects: null, skills: null, services: null, contact: null };
       document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
@@ -548,21 +769,60 @@
     })();
 
     let toastTimer;
-    function showToast() {
+    function showToast(msg) {
       const toast = document.getElementById('toast');
+      if (msg) toast.textContent = msg;
       toast.classList.add('show');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
     }
     function copyEmail() {
       const email = 'nichobusiness17@gmail.com';
-      navigator.clipboard.writeText(email).then(showToast).catch(function () {
+      navigator.clipboard.writeText(email).then(function () { showToast('Email copied ✓'); }).catch(function () {
         const ta = document.createElement('textarea');
         ta.value = email; document.body.appendChild(ta);
         ta.select(); document.execCommand('copy'); ta.remove();
-        showToast();
+        showToast('Email copied ✓');
       });
     }
+
+    // Contact form → FormSubmit (AJAX, stays on page)
+    (function () {
+      const form = document.getElementById('contact-form');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (form.querySelector('[name="_gotcha"]').value) return;
+        const btn = document.getElementById('form-submit');
+        const data = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          topic: form.topic.value,
+          message: form.message.value.trim(),
+          _replyto: form.email.value.trim(),
+          _subject: 'Portfolio contact: ' + form.topic.value,
+          _template: 'table'
+        };
+        if (!data.name || !data.email || !data.message) {
+          showToast('Please fill in all fields');
+          return;
+        }
+        btn.disabled = true;
+        fetch(SITE.formEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function (res) {
+          if (!res.ok) throw new Error('bad status');
+          form.reset();
+          showToast('Message sent ✓');
+        }).catch(function () {
+          showToast('Send failed — email me instead');
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+    })();
 
     // Portrait: auto-crossfade doodle <-> real photo; hovering pins the real one
     (function () {
