@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nicholai Oblina</title>
   <meta name="description" content="Nicholai Oblina — developer and builder. Creator of kwek.cards. Websites for small businesses." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>" />
+  <link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)" />
   <style>
     /* ============================================
        Notion-like theme. Light + dark via .dark on <html>
@@ -179,6 +182,10 @@
       font-size: 0.85rem; color: var(--muted);
     }
     .topbar .crumbs { display: flex; align-items: center; gap: 0.4rem; }
+    .topbar .crumbs .page-icon {
+      width: 18px; height: 18px; border-radius: 3px; object-fit: cover;
+      border: 1px solid var(--line); background: #fff; flex-shrink: 0;
+    }
     .topbar .crumbs .sep { color: var(--faint); }
     .topbar .crumbs .here { color: var(--ink); }
     .topbar .meta { display: flex; align-items: center; gap: 1rem; }
@@ -225,7 +232,7 @@
   </button>
 
   <div class="topbar">
-    <div class="crumbs">🥚 <span>Nicho's Space</span> <span class="sep">/</span> <span class="here">Portfolio</span></div>
+    <div class="crumbs"><img class="page-icon" src="../brand-icon.png" alt="" width="52" height="52" /><span>Nicho's Space</span> <span class="sep">/</span> <span class="here">Portfolio</span></div>
     <div class="meta">
       <span class="edited" id="edited"></span>
       <a href="../">View as website ↗</a>

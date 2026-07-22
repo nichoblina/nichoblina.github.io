@@ -8,8 +8,13 @@
   <meta property="og:title" content="Nicholai Oblina — Developer &amp; Builder" />
   <meta property="og:description" content="I help students study smarter and small businesses stand out. Creator of kwek.cards." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="me.png" />
   <meta name="twitter:card" content="summary" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>" />
+  <meta name="twitter:image" content="me.png" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <style>
     /* ============================================
        Notion-themed (palette + type), website layout.
@@ -107,7 +112,11 @@
     }
     .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.5rem; max-width: 1020px; margin: 0 auto; }
     .brand { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 0.55rem; }
-    .brand .dot { width: 26px; height: 26px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+    .brand .dot {
+      width: 26px; height: 26px; border-radius: 6px; background: #fff;
+      border: 1px solid var(--line); overflow: hidden; flex-shrink: 0;
+    }
+    .brand .dot img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .nav-links { display: flex; gap: 0.35rem; list-style: none; align-items: center; }
     .nav-links a { font-size: 0.92rem; color: var(--muted); padding: 0.4rem 0.75rem; border-radius: 6px; }
     .nav-links a:hover { background: var(--hover); color: var(--ink); }
@@ -294,7 +303,7 @@
 
   <header>
     <nav class="nav">
-      <a href="#" class="brand"><span class="dot">🥚</span>Nicholai Oblina</a>
+      <a href="#" class="brand"><span class="dot"><img src="brand-icon.png" alt="" width="52" height="52" /></span>Nicholai Oblina</a>
       <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
         <svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
