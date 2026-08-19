@@ -10,13 +10,13 @@
   <meta property="og:description" content="I help students study smarter and small businesses stand out. Creator of kwek.cards." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nichoblina.github.io/" />
-  <meta property="og:image" content="https://nichoblina.github.io/og.png" />
+  <meta property="og:image" content="https://nichoblina.github.io/banner.jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://nichoblina.github.io/og.png" />
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)" />
+  <meta name="twitter:image" content="https://nichoblina.github.io/banner.jpeg" />
+  <meta name="theme-color" content="#0b0c12" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0b0c12" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
   <link rel="icon" href="brand-icon.png" type="image/png" sizes="48x48" />
   <link rel="shortcut icon" href="favicon-32.png" type="image/png" />
@@ -690,6 +690,26 @@
     }
     .services .note { margin: 0; color: var(--muted); font-size: 0.95rem; text-align: left; }
     .services .note a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
+    @media (min-width: 881px) {
+      .services-foot { justify-content: center; }
+      .proof-stack {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 0 0.3rem 0.15rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+      }
+      .proof-stack::-webkit-scrollbar { display: none; }
+      .proof-stack .proof-card {
+        flex: 0 0 min(28rem, 72%);
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        margin: 0;
+      }
+    }
 
     /* ---------- Case study ---------- */
     .case { padding: 4.5rem 0; }
@@ -729,35 +749,31 @@
     }
     .case-step { position: relative; padding: 0; background: none; border: 0; overflow: visible; }
     .case-num {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
       z-index: 2;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2.55rem;
-      height: 2.55rem;
+      width: 2.3rem;
+      height: 2.3rem;
+      margin-bottom: 0.85rem;
       border-radius: 999px;
-      border: 1px solid rgba(255, 156, 84, 0.42);
+      border: 1px solid rgba(255, 156, 84, 0.4);
       background: #12141c;
       color: #ffd0a6;
       font-family: "Outfit", "Inter", ui-sans-serif, sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       line-height: 1;
-      box-shadow:
-        0 0 0 4px rgba(11, 13, 20, 0.88),
-        0 12px 28px rgba(255, 156, 84, 0.22);
-      transform: translate(-24%, -48%);
-      transform-origin: center;
-      pointer-events: none;
+    }
+    .case-num::before,
+    .case-num::after {
+      display: none;
     }
     .case-step-body {
       position: relative;
       z-index: 1;
-      padding-top: 1.55rem;
     }
     .case-step .label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
     .case-step h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
@@ -1398,40 +1414,129 @@
     /* ---------- Responsive ---------- */
     @media (max-width: 880px) {
       body.menu-open { overflow: hidden; }
+      body.menu-open header {
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 1400;
+        background: transparent;
+        border-bottom-color: transparent;
+        backdrop-filter: none;
+      }
       .container { padding: 0 1.15rem; }
       .nav { padding: 0.55rem 1.15rem; position: relative; }
       .nav { margin-top: 0.75rem; border-radius: 18px; }
-      .menu-toggle { display: inline-flex; margin-left: 0.35rem; }
-      .nav-links {
-        display: flex; position: absolute; top: calc(100% + 0.45rem); left: 0; right: 0; width: 100%;
-        flex-direction: column; align-items: flex-start; gap: 0;
-        background: rgba(10, 12, 19, 0.92); border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px; padding: 0.7rem 1.15rem 0.85rem;
-        box-shadow: 0 22px 54px rgba(0,0,0,0.34); margin: 0;
-        backdrop-filter: blur(26px) saturate(145%);
-        -webkit-backdrop-filter: blur(26px) saturate(145%);
-        opacity: 0; visibility: hidden; pointer-events: none;
-        transform: translateY(-0.6rem) scale(0.985);
-        transform-origin: top center;
+      .menu-toggle {
+        display: inline-flex;
+        margin-left: 0.35rem;
+        z-index: 1301;
+        transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+      }
+      .menu-toggle-line {
         transition:
-          opacity 0.22s ease,
-          transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-          visibility 0s linear 0.22s;
+          transform 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.1s ease,
+          width 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      body.menu-open .menu-toggle {
+        position: fixed;
+        top: max(0.8rem, env(safe-area-inset-top, 0px));
+        right: 1rem;
+        margin: 0;
+        z-index: 1502;
+        background: rgba(19, 22, 33, 0.95);
+        border: 1px solid rgba(255, 196, 143, 0.45);
+        border-radius: 999px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+      }
+      .nav-links {
+        counter-reset: menu-item;
+        position: fixed; inset: 0;
+        display: flex; flex-direction: column; align-items: stretch;
+        gap: 0; margin: 0; padding: 6.4rem 1.15rem 1.25rem;
+        background: #0b0c12;
+        border: 0; border-radius: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transform: none;
+        will-change: opacity;
+        transition:
+          opacity 0.1s linear,
+          visibility 0s linear 0.1s;
+        z-index: 1401;
       }
       .nav-links.open {
         opacity: 1; visibility: visible; pointer-events: auto;
-        transform: translateY(0) scale(1);
         transition:
-          opacity 0.22s ease,
-          transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.1s linear,
           visibility 0s linear 0s;
       }
-      .nav-links li { width: 100%; }
-      .nav-links { gap: 0.85rem 1.15rem; }
-      .nav-links li:last-child { margin-left: 0; width: 100%; }
-      .nav-links a { padding: 0.7rem 0; font-size: 1.05rem; letter-spacing: 0.02em; }
-      .nav-links a::after { bottom: 0.35rem; }
-      .nav-links .cta { display: inline-flex; margin-top: 0.45rem; }
+      /* Mobile menu should feel instant/snappy */
+      .nav-links,
+      .nav-links.open,
+      .menu-toggle,
+      .menu-toggle-line {
+        transition: none !important;
+      }
+      .nav-links li { width: 100%; margin: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+      .nav-links li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+      .nav-links a {
+        display: flex; align-items: center; gap: 1rem;
+        width: 100%; padding: 0.88rem 0.05rem;
+        font-size: clamp(1.7rem, 6vw, 2.2rem);
+        letter-spacing: -0.02em; line-height: 1.08;
+        color: rgba(247, 239, 233, 0.62);
+      }
+      .nav-links a::after { display: none; }
+      .nav-links a::before {
+        counter-increment: menu-item;
+        content: counter(menu-item, decimal-leading-zero);
+        font-size: clamp(1.6rem, 5.4vw, 2rem);
+        letter-spacing: -0.02em;
+        color: rgba(247, 239, 233, 0.52);
+        min-width: 2.05ch;
+      }
+      .nav-links a.active { color: #fff7f1; }
+      .nav-links a.active::before { color: #ffd7b8; }
+      .nav-links a.is-current::after {
+        content: "YOU ARE HERE";
+        display: inline-block;
+        position: static;
+        width: auto; height: auto;
+        margin-left: auto;
+        background: none;
+        transform: none;
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(247, 239, 233, 0.58);
+      }
+      .nav-links .cta {
+        color: rgba(247, 239, 233, 0.62);
+        background: none;
+        border: 0;
+        border-radius: 0;
+        padding: 0.88rem 0.05rem;
+        font-size: clamp(1.7rem, 6vw, 2.2rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.08;
+      }
+      .nav-links .cta::after { display: none !important; }
+      .nav-links .cta:hover,
+      .nav-links .cta.active {
+        background: none;
+        color: #fff7f1;
+      }
+      body.menu-open .nav {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+      }
+      body.menu-open .brand { opacity: 0; pointer-events: none; }
 
       /* Hero — landscape phones */
       @media (orientation: landscape) {
@@ -1553,6 +1658,46 @@
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
       }
       .services-foot { flex-direction: column; align-items: stretch; }
+      .service-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 0.8rem;
+        padding: 0 0.3rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+      }
+      .service-track::-webkit-scrollbar { display: none; }
+      .service-track .service {
+        flex: 0 0 calc(100% - 2.2rem);
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        margin: 0;
+        opacity: 0.58;
+        transform: scale(0.965);
+        transition:
+          opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.2s ease;
+      }
+      .service-track .service.is-active {
+        opacity: 1;
+        transform: scale(1);
+        border-color: rgba(255, 156, 84, 0.28);
+      }
+      .service-dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.45rem;
+        margin: 0.7rem 0 0.2rem;
+      }
+      .service-dots button {
+        width: 0.42rem; height: 0.42rem; padding: 0; border: 0; border-radius: 999px;
+        background: rgba(255, 255, 255, 0.22); cursor: pointer;
+      }
+      .service-dots button.active { width: 1.35rem; background: var(--accent); }
       .skills-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
       .preview-slide { height: 176px; }
       .featured-card:hover { transform: none; }
@@ -1579,19 +1724,20 @@
         margin-bottom: 0; font-size: 0.92rem;
         display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
       }
-      .case-carousel { margin-bottom: 1.1rem; overflow: visible; padding-top: 0.45rem; }
+      .case-carousel { margin-bottom: 1.1rem; overflow: visible; padding-top: 0; }
       .case-track {
         display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-        gap: 0; margin-bottom: 0.65rem;
+        gap: 0.75rem; margin-bottom: 0.65rem;
+        padding: 0 0.25rem;
         -webkit-overflow-scrolling: touch; scrollbar-width: none;
         overscroll-behavior-x: contain;
         overflow-y: visible;
       }
       .case-track::-webkit-scrollbar { display: none; }
       .case-step {
-        flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
-        padding: 1.15rem 1rem 1.05rem;
-        margin-top: 0.55rem;
+        flex: 0 0 calc(100% - 1rem); scroll-snap-align: center; scroll-snap-stop: always;
+        padding: 1.3rem 1rem 1.3rem;
+        margin-top: 0.65rem;
         overflow: visible;
         border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px;
         background:
@@ -1609,15 +1755,40 @@
         border-color: rgba(255, 156, 84, 0.28);
       }
       .case-num {
-        width: 2.9rem;
-        height: 2.9rem;
-        font-size: 0.86rem;
-        transform: translate(-20%, -54%);
-        box-shadow:
-          0 0 0 4px rgba(11, 13, 20, 0.92),
-          0 14px 32px rgba(255, 156, 84, 0.26);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        display: flex;
+        gap: 0.55rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        transform: translateY(-50%);
       }
-      .case-step-body { padding-top: 1.35rem; }
+      .case-num::before,
+      .case-num::after {
+        display: block;
+        content: "";
+        flex: 1;
+        height: 1px;
+      }
+      .case-num::before {
+        background: linear-gradient(90deg, transparent, rgba(255, 156, 84, 0.45));
+      }
+      .case-num::after {
+        background: linear-gradient(90deg, rgba(255, 156, 84, 0.45), transparent);
+      }
+      .case-step-body { padding-top: 0.5rem; }
+      .case-step .label,
+      .case-step h4,
+      .case-step p { text-align: center; }
       .case-step h4 { font-size: 1rem; margin-bottom: 0.35rem; }
       .case-step p { font-size: 0.86rem; line-height: 1.48; }
       .case-dots { display: flex; }
@@ -2080,7 +2251,7 @@
       <div class="chapter-rule" aria-hidden="true"><span>Services</span></div>
       <h2>Websites for small businesses</h2>
       <p class="section-sub">Live within a week, almost zero monthly cost. Free demo before you pay anything.</p>
-      <div class="service-grid">
+      <div class="service-grid service-track" id="service-track">
         <article class="service">
           <span class="service-num">01</span>
           <p class="tier">Starter</p>
@@ -2115,8 +2286,8 @@
           </ul>
         </article>
       </div>
+      <div class="service-dots" id="service-dots" aria-hidden="true"></div>
       <div class="services-foot">
-        <p class="note">Want something like <a href="https://adrian-james.netlify.app/" target="_blank" rel="noopener">Adrian's portfolio</a>? I’ll build a free demo first.</p>
         <a href="#contact" class="btn">Get a free demo</a>
       </div>
     </div>
@@ -2350,7 +2521,7 @@
         if (!isMobile() || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         timer = window.setInterval(function () {
           goTo((index + 1) % cards.length);
-        }, 5500);
+        }, 10000);
       }
 
       function goTo(next) {
@@ -2439,10 +2610,23 @@
       var toggle = document.querySelector('.menu-toggle');
       if (!nav || !toggle) return;
 
+      function scrollToSectionMarker(id) {
+        if (!id) return;
+        var section = document.getElementById(id);
+        if (!section) return;
+        var marker = section.querySelector('.chapter-rule') || section;
+        var header = document.querySelector('header');
+        var headerHeight = header ? header.getBoundingClientRect().height : 0;
+        var extraGap = window.innerWidth <= 880 ? 8 : 12;
+        var targetY = Math.max(0, window.scrollY + marker.getBoundingClientRect().top - headerHeight - extraGap);
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+
       function setMenu(open) {
         nav.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         document.body.classList.toggle('menu-open', open);
+        if (open) document.dispatchEvent(new Event('navmenuopen'));
       }
 
       toggle.addEventListener('click', function () {
@@ -2450,13 +2634,19 @@
       });
 
       document.querySelectorAll('.nav-links a').forEach(function (link) {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', function (e) {
+          var href = link.getAttribute('href') || '';
+          if (href.charAt(0) === '#') {
+            e.preventDefault();
+            scrollToSectionMarker(href.slice(1));
+          }
           setMenu(false);
         });
       });
 
       document.addEventListener('click', function (event) {
         if (!nav.classList.contains('open')) return;
+        if (window.innerWidth <= 880) return;
         if (nav.contains(event.target) || toggle.contains(event.target)) return;
         setMenu(false);
       });
@@ -2477,6 +2667,7 @@
     (function () {
       var body = document.body;
       function syncHeader() {
+        if (body.classList.contains('menu-open')) return;
         body.classList.toggle('show-header', window.scrollY > 24);
       }
       syncHeader();
@@ -2874,7 +3065,113 @@
       'Show step'
     );
 
+    (function () {
+      var track = document.getElementById('service-track');
+      var dots = document.getElementById('service-dots');
+      if (!track) return;
+      var cards = track.querySelectorAll('.service');
+      if (!cards.length) return;
+      var initialized = false;
+
+      function isMobile() {
+        return window.matchMedia('(max-width: 880px)').matches;
+      }
+
+      function syncActive() {
+        if (!isMobile()) {
+          cards.forEach(function (card) { card.classList.remove('is-active'); });
+          if (dots) dots.innerHTML = '';
+          return;
+        }
+        var cardWidth = cards[0].getBoundingClientRect().width;
+        var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+        var step = cardWidth + gap;
+        var index = Math.max(0, Math.min(cards.length - 1, Math.round(track.scrollLeft / step)));
+        cards.forEach(function (card, i) { card.classList.toggle('is-active', i === index); });
+        if (dots) {
+          dots.querySelectorAll('button').forEach(function (btn, i) {
+            btn.classList.toggle('active', i === index);
+          });
+        }
+      }
+
+      function buildDots() {
+        if (!dots) return;
+        dots.innerHTML = '';
+        if (!isMobile()) return;
+        cards.forEach(function (_, i) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('aria-label', 'Show service package ' + (i + 1));
+          btn.addEventListener('click', function () {
+            var cardWidth = cards[0].getBoundingClientRect().width;
+            var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+            var step = cardWidth + gap;
+            track.scrollTo({ left: i * step, behavior: 'smooth' });
+          });
+          dots.appendChild(btn);
+        });
+      }
+
+      function initPosition() {
+        if (!isMobile() || initialized) return;
+        initialized = true;
+        var middle = Math.floor(cards.length / 2);
+        var cardWidth = cards[0].getBoundingClientRect().width;
+        var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+        var step = cardWidth + gap;
+        track.scrollTo({ left: middle * step, behavior: 'auto' });
+        syncActive();
+      }
+
+      track.addEventListener('scroll', syncActive, { passive: true });
+      window.addEventListener('resize', function () {
+        if (!isMobile()) initialized = false;
+        buildDots();
+        initPosition();
+        syncActive();
+      });
+
+      requestAnimationFrame(function () {
+        buildDots();
+        initPosition();
+        syncActive();
+      });
+    })();
+
     bindProofStack(document.getElementById('proof-stack'));
+
+    (function () {
+      var track = document.getElementById('proof-stack');
+      if (!track) return;
+      var cards = track.querySelectorAll('.proof-card');
+      if (!cards.length) return;
+      var timer = null;
+
+      function isDesktop() {
+        return window.matchMedia('(min-width: 881px)').matches;
+      }
+
+      function resetAutoScroll() {
+        if (timer) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+        if (!isDesktop() || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        timer = window.setInterval(function () {
+          var cardWidth = cards[0].getBoundingClientRect().width;
+          var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || '0') || 0;
+          var step = cardWidth + gap;
+          var maxIndex = cards.length - 1;
+          var currentIndex = Math.max(0, Math.min(maxIndex, Math.round(track.scrollLeft / step)));
+          var nextIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+          track.scrollTo({ left: nextIndex * step, behavior: 'smooth' });
+        }, 10000);
+      }
+
+      window.addEventListener('resize', resetAutoScroll);
+      resetAutoScroll();
+    })();
 
     // Cursor spotlight on cards and buttons
     (function () {
@@ -2927,23 +3224,45 @@
 
     // Active nav link
     (function () {
-      const map = { projects: null, skills: null, services: null, contact: null };
+      const ids = ['projects', 'skills', 'services', 'contact'];
+      const links = {};
+      const sections = [];
       document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
-        map[a.getAttribute('href').slice(1)] = a;
+        links[a.getAttribute('href').slice(1)] = a;
       });
-      const io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          const link = map[entry.target.id];
-          if (link && entry.isIntersecting) {
-            Object.values(map).forEach(function (l) { l && l.classList.remove('active'); });
-            link.classList.add('active');
-          }
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) sections.push(el);
+      });
+      if (!sections.length) return;
+
+      function setActive(id) {
+        Object.keys(links).forEach(function (key) {
+          var link = links[key];
+          if (!link) return;
+          link.classList.toggle('active', key === id);
+          link.classList.toggle('is-current', key === id);
         });
-      }, { rootMargin: '-40% 0px -55% 0px' });
-      ['projects', 'skills', 'services', 'contact'].forEach(function (id) {
-        const el = document.getElementById(id);
-        if (el) io.observe(el);
-      });
+      }
+
+      function syncActiveFromScroll() {
+        var header = document.querySelector('header');
+        var headerHeight = header ? header.getBoundingClientRect().height : 0;
+        var probeY = headerHeight + (window.innerWidth <= 880 ? 24 : 36);
+        var currentId = ids[0];
+
+        sections.forEach(function (section) {
+          var marker = section.querySelector('.chapter-rule') || section;
+          var top = marker.getBoundingClientRect().top;
+          if (top <= probeY) currentId = section.id;
+        });
+        setActive(currentId);
+      }
+
+      syncActiveFromScroll();
+      window.addEventListener('scroll', syncActiveFromScroll, { passive: true });
+      window.addEventListener('resize', syncActiveFromScroll);
+      document.addEventListener('navmenuopen', syncActiveFromScroll);
     })();
 
     let toastTimer;
