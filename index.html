@@ -719,17 +719,34 @@
     .services .note a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
     @media (min-width: 881px) {
       .services-foot { justify-content: center; margin-top: 4.25rem; }
-      .service-grid { margin-top: 1.75rem; }
-      /* #service-track outranks the .service:hover reset (also transform, same
-         specificity, declared earlier) so the zoom-on-hover isn't clobbered. Gated
-         on real hover capability so tapping a card on a touch+wide device (e.g.
-         landscape tablet) can't leave it stuck in the zoomed state. */
+      .service-grid {
+        margin-top: 1.75rem;
+        padding-top: 1.35rem;
+        align-items: center;
+        overflow: visible;
+      }
+      .service-grid .service {
+        transform-origin: center center;
+      }
+      .service-grid .service.is-featured {
+        transform: scale(1.16);
+        z-index: 2;
+      }
+      /* Side cards zoom on hover; featured stays at its default scale (no self-hover
+         lift). When a side card is hovered, featured scales back to 1. Gated on real
+         hover capability so tapping on touch+wide devices can't leave cards stuck. */
       @media (hover: hover) and (pointer: fine) {
-        #service-track .service:hover {
+        #service-track .service:not(.is-featured):hover {
           transform: translateY(-4px) scale(1.16);
           z-index: 3;
           border-color: rgba(255, 156, 84, 0.4);
           box-shadow: 0 26px 54px rgba(0, 0, 0, 0.28);
+        }
+        #service-track:has(.service:not(.is-featured):hover) .service.is-featured {
+          transform: scale(1);
+          z-index: 1;
+          box-shadow: none;
+          border-color: var(--line);
         }
       }
       .proof-stack {
@@ -753,14 +770,69 @@
 
     /* ---------- Case study ---------- */
     .case { padding: 4.5rem 0; }
+    .case > .container > h2 { margin-bottom: 1rem; }
     .case-panel { overflow: visible; }
+    .case-tagline {
+      font-family: "Outfit", "Inter", ui-sans-serif, sans-serif;
+      font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 0.55rem;
+      color: var(--ink);
+    }
+    .case-tagline-lead { color: inherit; }
     .case-intro {
-      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(16rem, 0.9fr);
+      display: grid; grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.1fr);
       gap: 2rem; align-items: center; margin-bottom: 2.25rem;
     }
-    .case-eyebrow { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.6rem; }
-    .case h3 { font-family: "Outfit", "Inter", ui-sans-serif, sans-serif; font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.35rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 0.55rem; }
+    .case-intro .case-visual { order: -1; }
+    .case-headline-rotate {
+      display: inline-block;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--accent);
+      transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .case-headline-rotate.is-switching {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    .case-headline-rotate.is-entering {
+      opacity: 0;
+      transform: translateY(10px);
+    }
     .case .case-lede { color: var(--muted); margin-bottom: 0; max-width: 38rem; font-size: 1.02rem; }
+    @media (min-width: 881px) {
+      .case > .container {
+        display: grid;
+        grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.1fr);
+        column-gap: 2rem;
+      }
+      .case > .container > .chapter-rule,
+      .case > .container > h2 { grid-column: 1 / -1; }
+      .case-tagline {
+        grid-column: 2;
+        grid-row: 2;
+        margin-bottom: 0.55rem;
+        align-self: end;
+      }
+      .case-panel { display: contents; }
+      .case-intro { display: contents; margin-bottom: 0; }
+      .case-visual {
+        grid-column: 1;
+        grid-row: 2 / 4;
+        align-self: center;
+      }
+      .case-copy { grid-column: 2; grid-row: 3; }
+      .case-carousel {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        margin-top: 2.25rem;
+      }
+      .case-actions { grid-column: 1 / -1; grid-row: 5; }
+    }
+    .case-eyebrow { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.6rem; }
     .case-visual {
       position: relative; min-height: 14.5rem;
     }
@@ -845,19 +917,19 @@
       backdrop-filter: blur(18px) saturate(140%);
       box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
       opacity: 0; visibility: hidden; pointer-events: none;
-      transform: translateY(10px) scale(0.96);
+      transform: translateY(14px) scale(0.92);
       transform-origin: bottom center;
       transition:
-        opacity 0.24s ease,
-        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0.24s;
+        opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0.36s;
     }
     .open-split.open .open-split-menu {
       opacity: 1; visibility: visible; pointer-events: auto;
       transform: translateY(0) scale(1);
       transition:
-        opacity 0.24s ease,
-        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
         visibility 0s linear 0s;
     }
     .open-split-menu a {
@@ -865,17 +937,17 @@
       padding: 0.72rem 0.8rem; border-radius: 10px;
       color: var(--ink); font-size: 0.88rem; font-weight: 600;
       text-decoration: none;
-      opacity: 0; transform: translateY(8px);
+      opacity: 0; transform: translateY(10px);
       transition:
         background 0.18s ease,
-        opacity 0.24s ease,
-        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .open-split.open .open-split-menu a {
       opacity: 1; transform: translateY(0);
     }
-    .open-split.open .open-split-menu a:nth-child(1) { transition-delay: 0.04s; }
-    .open-split.open .open-split-menu a:nth-child(2) { transition-delay: 0.1s; }
+    .open-split.open .open-split-menu a:nth-child(1) { transition-delay: 0.06s; }
+    .open-split.open .open-split-menu a:nth-child(2) { transition-delay: 0.14s; }
     .open-split-menu a svg { width: 16px; height: 16px; stroke: currentColor; flex-shrink: 0; opacity: 0.82; }
     .open-split-menu a:hover { background: rgba(255, 255, 255, 0.06); }
     .case-dots {
@@ -1318,7 +1390,7 @@
       box-shadow: none;
       backdrop-filter: none;
     }
-    .skill-col:hover, .service:hover, .case-step:hover { transform: none; box-shadow: none; }
+    .skill-col:hover, .service:not(.is-featured):hover, .case-step:hover { transform: none; box-shadow: none; }
     .skill-col::before, .service::before, .case-panel::before { content: none; }
     .skill-col h3, .service .tier { color: #ffd0a6; }
     .service .tier, .catalog-eyebrow, .modal-eyebrow {
@@ -1756,15 +1828,24 @@
       .catalog-meta .tags, .catalog-open .tags { display: none; }
       .catalog-ext { font-size: 0.78rem; }
 
+      .case > .container > h2 { margin-bottom: 0.4rem; }
+      .case-tagline {
+        font-size: 1.02rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.45;
+        color: var(--muted);
+        margin-bottom: 1.35rem;
+      }
+      .case-tagline-lead { color: rgba(247, 239, 233, 0.88); font-weight: 600; }
       .case-intro { grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.75rem; }
+      .case-intro .case-visual { order: 0; }
       .case-visual { min-height: 0; max-width: 28rem; }
       .case-shot.is-phone { width: 26%; bottom: -0.7rem; }
       .case-grid::before { display: none; }
       .case-panel { padding: 0; border-radius: 0; }
-      .case h3 { font-size: 1.45rem; }
       .case .case-lede {
-        margin-bottom: 0; font-size: 0.92rem;
-        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        margin-bottom: 0; font-size: 0.92rem; line-height: 1.55;
       }
       .case-carousel { margin-bottom: 1.1rem; overflow: visible; padding-top: 0; }
       .case-track {
@@ -2025,7 +2106,7 @@
           </div>
           <button type="button" class="card-body" data-open-project="kwek">
             <span class="card-top"><span class="glyph"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span><span class="ext">Details →</span></span>
-            <h3>kwek — AI study platform <span class="tag green" style="vertical-align: 2px; font-size: 0.72rem;">on Play Store</span></h3>
+            <h3>kwek — AI study platform <span class="tag green" style="vertical-align: 2px; font-size: 0.72rem;">Web + app</span></h3>
             <p>Web + Android app that turns notes into flashcards and quizzes. Live on Play Store. Solo build: auth, offline-first sync, AI guardrails, and a community hub.</p>
             <span class="tags">
               <span class="tag blue">Next.js 15</span><span class="tag green">Supabase</span><span class="tag purple">AI · Groq</span><span class="tag purple">Expo</span>
@@ -2105,12 +2186,10 @@
     <div class="container">
       <div class="chapter-rule" aria-hidden="true"><span>Case study</span></div>
       <h2>Case study — kwek</h2>
-      <p class="section-sub">Problem → build → result for the product I ship myself.</p>
+      <p class="case-tagline"><span class="case-tagline-lead">Notes →</span> <span class="case-headline-rotate" id="kwek-headline-rotate" aria-live="polite">Flashcards</span></p>
       <div class="case-panel">
         <div class="case-intro">
           <div class="case-copy">
-            <div class="case-eyebrow">Solo product · Live on Play Store &amp; kwek.cards</div>
-            <h3>Notes in. Study deck out.</h3>
             <p class="case-lede">Students waste hours rewriting notes into flashcards. kwek collapses that into a paste-or-upload flow that generates cards and quizzes with AI — then keeps everything usable offline. Now shipped to Google Play Store as a full Android app.</p>
           </div>
           <div class="case-visual" aria-hidden="true">
@@ -2166,7 +2245,7 @@
             <div class="open-split-menu" role="menu" hidden>
               <a role="menuitem" href="https://kwek.cards" target="_blank" rel="noopener">
                 <svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Web app · kwek.cards
+                Website
               </a>
               <a role="menuitem" href="https://play.google.com/store/apps/details?id=cards.kwek.app" target="_blank" rel="noopener">
                 <svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l12 6-12 6V3z"/><path d="M6 15v6l12-6"/></svg>
@@ -2364,7 +2443,7 @@
         <div>
           <label for="topic">What's this about?</label>
           <select id="topic" name="topic">
-            <option value="Freelance website">Freelance website</option>
+            <option value="Website">Website</option>
             <option value="kwek feedback">kwek feedback</option>
             <option value="Collaboration">Collaboration</option>
             <option value="Just saying hi">Just saying hi</option>
@@ -2471,7 +2550,7 @@
           '<div class="open-split-menu" role="menu" hidden>' +
             '<a role="menuitem" href="' + SITE.kwekWeb + '" target="_blank" rel="noopener">' +
               '<svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' +
-              'Web app · kwek.cards' +
+              'Website' +
             '</a>' +
             '<a role="menuitem" href="' + SITE.kwekPlayStore + '" target="_blank" rel="noopener">' +
               '<svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l12 6-12 6V3z"/><path d="M6 15v6l12-6"/></svg>' +
@@ -2492,15 +2571,38 @@
         if (!trigger || !menu) return;
 
         function closeMenu() {
+          if (!wrap.classList.contains('open')) return;
           wrap.classList.remove('open');
           trigger.setAttribute('aria-expanded', 'false');
-          menu.hidden = true;
+          var closed = false;
+          function finishClose() {
+            if (closed) return;
+            closed = true;
+            menu.hidden = true;
+          }
+          menu.addEventListener('transitionend', function onClose(e) {
+            if (e.target !== menu) return;
+            if (e.propertyName !== 'opacity' && e.propertyName !== 'transform') return;
+            menu.removeEventListener('transitionend', onClose);
+            finishClose();
+          });
+          window.setTimeout(finishClose, 420);
+        }
+
+        function openMenu() {
+          menu.hidden = false;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              wrap.classList.add('open');
+              trigger.setAttribute('aria-expanded', 'true');
+            });
+          });
         }
 
         trigger.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
-          var open = !wrap.classList.contains('open');
+          var willOpen = !wrap.classList.contains('open');
           document.querySelectorAll('[data-open-split].open').forEach(function (other) {
             if (other !== wrap) {
               other.classList.remove('open');
@@ -2510,9 +2612,8 @@
               if (otherMenu) otherMenu.hidden = true;
             }
           });
-          wrap.classList.toggle('open', open);
-          trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-          menu.hidden = !open;
+          if (willOpen) openMenu();
+          else closeMenu();
         });
 
         document.addEventListener('click', function (e) {
@@ -2753,6 +2854,29 @@
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
               role.classList.remove('is-entering');
+            });
+          });
+        }, 220);
+      }, 2400);
+    })();
+
+    // kwek case study headline rotation
+    (function () {
+      var phrase = document.getElementById('kwek-headline-rotate');
+      if (!phrase) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var phrases = ['Flashcards', 'Quizzes', 'Study decks'];
+      var index = 0;
+      setInterval(function () {
+        phrase.classList.add('is-switching');
+        setTimeout(function () {
+          index = (index + 1) % phrases.length;
+          phrase.classList.add('is-entering');
+          phrase.textContent = phrases[index];
+          phrase.classList.remove('is-switching');
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              phrase.classList.remove('is-entering');
             });
           });
         }, 220);
