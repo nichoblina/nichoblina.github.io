@@ -485,11 +485,13 @@
     .preview-track::-webkit-scrollbar { display: none; }
     .preview-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
     .preview-slide {
-      flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
+      flex: 0 0 100%; min-width: 100%; max-width: 100%;
+      scroll-snap-align: start; scroll-snap-stop: always;
       height: 168px; position: relative; background: var(--surface);
+      overflow: hidden;
     }
     .preview-slide picture, .preview-slide > img {
-      display: block; width: 100%; height: 100%;
+      display: block; width: 100%; height: 100%; min-width: 100%; min-height: 100%;
     }
     .preview-slide img {
       width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;
@@ -511,8 +513,10 @@
       display: flex; justify-content: center; gap: 0.35rem; pointer-events: none; z-index: 2;
     }
     .preview-dot {
+      appearance: none; border: 0; padding: 0; margin: 0;
       width: 6px; height: 6px; border-radius: 999px; background: rgba(15, 15, 15, 0.28);
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35); transition: background 0.15s, transform 0.15s;
+      pointer-events: auto; cursor: pointer;
     }
     .preview-dot.active { background: var(--ink); transform: scale(1.15); }
     .dark .preview-dot { background: rgba(255, 255, 255, 0.35); box-shadow: none; }
@@ -1131,6 +1135,69 @@
     }
     .modal-media .preview { border-bottom: 0; }
     .modal-media .preview-slide { height: 220px; }
+    @media (hover: hover) and (pointer: fine) {
+      .modal-media .preview-track {
+        cursor: default;
+        overflow-x: hidden;
+        touch-action: none;
+      }
+      .modal-media .preview-track.is-dragging { cursor: default; }
+    }
+    .modal-media .preview-dots {
+      pointer-events: auto;
+      left: 50%;
+      right: auto;
+      bottom: 0.7rem;
+      width: max-content;
+      transform: translateX(-50%);
+      align-items: center;
+      gap: 0.1rem;
+      padding: 0.22rem 0.32rem;
+      background: rgba(8, 9, 14, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(10px);
+    }
+    .modal-media .preview-dot {
+      width: 1.7rem;
+      height: 1.7rem;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 999px;
+      transform: none;
+    }
+    .modal-media .preview-dot::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+      transition: width 0.22s cubic-bezier(0.22, 1, 0.36, 1), height 0.22s cubic-bezier(0.22, 1, 0.36, 1), background 0.22s ease, box-shadow 0.22s ease;
+    }
+    .modal-media .preview-dot:hover::after,
+    .modal-media .preview-dot:focus-visible::after {
+      background: rgba(255, 255, 255, 0.78);
+    }
+    .modal-media .preview-dot.active {
+      background: transparent;
+      transform: none;
+    }
+    .modal-media .preview-dot.active::after {
+      width: 11px;
+      height: 11px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 32%, transparent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .modal-media .preview-dot::after,
+      .modal-media .preview-dot.active::after {
+        transition: none;
+      }
+    }
     .modal-close {
       position: absolute; top: 0.75rem; right: 0.75rem; z-index: 3;
       width: 2.35rem; height: 2.35rem; border-radius: 999px; cursor: pointer;
@@ -1171,14 +1238,26 @@
       font-size: 0.85rem; color: var(--muted); margin-bottom: 0;
     }
     .modal-actions {
-      display: flex; flex-wrap: wrap; gap: 0.55rem;
+      display: flex; flex-wrap: nowrap; align-items: stretch; gap: 0.5rem;
       flex-shrink: 0;
       padding: 0.75rem 1.45rem calc(1.35rem + env(safe-area-inset-bottom, 0px));
       border-top: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(11, 13, 20, 0.72), rgba(11, 13, 20, 0.98));
       backdrop-filter: blur(12px);
     }
-    .modal-actions .btn { min-height: 44px; }
+    .modal-actions #modal-primary-slot,
+    .modal-actions #modal-secondary {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .modal-actions #modal-primary-slot {
+      display: flex;
+    }
+    .modal-actions #modal-primary-slot .btn,
+    .modal-actions #modal-primary-slot .open-split {
+      width: 100%;
+    }
+    .modal-actions .btn { min-height: 44px; width: 100%; }
     body.modal-open { overflow: hidden; }
     @media (prefers-reduced-motion: reduce) {
       .modal-backdrop, .modal { transition: none; }
@@ -1340,6 +1419,12 @@
     }
     .preview-dot { background: rgba(255, 255, 255, 0.36); box-shadow: none; }
     .preview-dot.active { background: var(--accent); }
+    .modal-media .preview-dot,
+    .modal-media .preview-dot.active {
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+    }
 
     .featured-grid { gap: 1.25rem; }
     .featured-card .card-body, .modal-body { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)); }
@@ -2022,12 +2107,15 @@
       .modal-quote { font-size: 0.94rem; line-height: 1.45; margin-bottom: 0.3rem; }
       .modal-attribution { font-size: 0.8rem; }
       .modal-actions {
-        flex-direction: column; align-items: stretch;
-        gap: 0.45rem;
-        padding: 0.75rem 1.15rem calc(1rem + env(safe-area-inset-bottom, 0px));
+        gap: 0.4rem;
+        padding: 0.7rem 1.15rem calc(1rem + env(safe-area-inset-bottom, 0px));
       }
-      .modal-actions .btn { width: 100%; min-height: 46px; }
-      .modal-actions .open-split { width: 100%; }
+      .modal-actions .btn {
+        min-height: 44px;
+        padding: 0 0.75rem;
+        font-size: 0.84rem;
+        gap: 0.35rem;
+      }
       .open-split-menu { left: 0; right: 0; }
       .modal-close { top: 0.55rem; right: 0.55rem; }
     }
@@ -2166,6 +2254,23 @@
         </div>
       </div>
       <div class="catalog-list" id="project-grid">
+        <article class="catalog-item" data-category="client" data-project="huni">
+          <span class="catalog-thumb">
+            <picture>
+              <source srcset="img/huni.webp" type="image/webp" />
+              <img src="img/huni.jpg" alt="" width="1200" height="750" loading="lazy" decoding="async" />
+            </picture>
+          </span>
+          <div class="catalog-meta">
+            <button type="button" class="catalog-open" data-open-project="huni">
+              <span class="catalog-eyebrow">Client site · Live preview</span>
+              <h3>Huni Matcha — pop-up café site</h3>
+              <p>Brand site for a Cebu matcha pop-up: drink menu, stall gallery, crew, and next-event block. Live on GitHub Pages while the custom domain is pending.</p>
+              <span class="tags"><span class="tag yellow">HTML/CSS</span><span class="tag gray">Vanilla JS</span><span class="tag red">Client work</span><span class="tag blue">GitHub Pages</span></span>
+            </button>
+            <a class="catalog-ext" href="https://nichoblina.github.io/huni-matcha/" target="_blank" rel="noopener">nichoblina.github.io/huni-matcha ↗</a>
+          </div>
+        </article>
         <article class="catalog-item" data-category="client" data-project="adrian">
           <span class="catalog-thumb">
             <picture>
@@ -2302,9 +2407,9 @@
       <div class="proof-stats">
         <article class="stat">
           <span class="stat-icon" aria-hidden="true"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-          <strong>1</strong>
+          <strong>2</strong>
           <span class="stat-label">Client sites live</span>
-          <span class="stat-hint">Shipped work like Adrian’s portfolio — not a mockup.</span>
+          <span class="stat-hint">Shipped work like Huni Matcha and Adrian’s portfolio — not mockups.</span>
         </article>
         <article class="stat">
           <span class="stat-icon" aria-hidden="true"><svg fill="none" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9 3 10.5 5 12 8c1.5-3 3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
@@ -2503,8 +2608,8 @@
       <div class="modal-handle" aria-hidden="true"></div>
       <div class="modal-media">
         <div class="preview" id="modal-preview">
-          <div class="preview-track" id="modal-track" tabindex="0" aria-label="Project screenshots, swipe to browse"></div>
-          <div class="preview-dots" id="modal-dots" aria-hidden="true"></div>
+          <div class="preview-track" id="modal-track" tabindex="0" aria-label="Project screenshots"></div>
+          <div class="preview-dots" id="modal-dots" role="tablist" aria-label="Screenshot pages"></div>
         </div>
         <button type="button" class="modal-close" id="modal-close" aria-label="Close project details">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
@@ -2544,6 +2649,10 @@
       kwekWeb: 'https://kwek.cards',
       kwekPlayStore: 'https://play.google.com/store/apps/details?id=cards.kwek.app'
     };
+
+    function contactIcon() {
+      return '<svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+    }
 
     function externalLinkIcon() {
       return '<svg fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>';
@@ -2943,6 +3052,9 @@
       const dotsWrap = preview.querySelector('.preview-dots');
       if (!track || !dotsWrap) return;
 
+      const isModalPreview = Boolean(preview.closest('.modal-media'));
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
       dotsWrap.innerHTML = '';
       const slides = Array.prototype.slice.call(track.querySelectorAll('.preview-slide'));
       if (slides.length < 2) {
@@ -2950,15 +3062,6 @@
         return;
       }
       dotsWrap.style.display = '';
-
-      const dots = slides.map(function (_, i) {
-        const dot = document.createElement('span');
-        dot.className = 'preview-dot' + (i === 0 ? ' active' : '');
-        dotsWrap.appendChild(dot);
-        return dot;
-      });
-      track._previewDots = dots;
-      track._previewSlideCount = slides.length;
 
       function activeIndex() {
         const w = track.clientWidth || 1;
@@ -2969,7 +3072,10 @@
         const list = track._previewDots || [];
         const i = Math.max(0, Math.min(list.length - 1, activeIndex()));
         list.forEach(function (dot, idx) {
-          dot.classList.toggle('active', idx === i);
+          const on = idx === i;
+          dot.classList.toggle('active', on);
+          dot.setAttribute('aria-selected', on ? 'true' : 'false');
+          dot.tabIndex = on ? 0 : -1;
         });
       }
 
@@ -2977,8 +3083,38 @@
         const w = track.clientWidth || 1;
         const count = track._previewSlideCount || 1;
         const idx = ((i % count) + count) % count;
-        track.scrollTo({ left: idx * w, behavior: smooth === false ? 'auto' : 'smooth' });
+        const left = idx * w;
+        if (isModalPreview || smooth === false) {
+          track.scrollLeft = left;
+          syncDots();
+          return;
+        }
+        track.scrollTo({ left: left, behavior: 'smooth' });
       }
+
+      const dots = slides.map(function (_, i) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'preview-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', 'Show screenshot ' + (i + 1) + ' of ' + slides.length);
+        dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        dot.tabIndex = i === 0 ? 0 : -1;
+        dot.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (track._previewTimer) {
+            clearInterval(track._previewTimer);
+            track._previewTimer = null;
+          }
+          goTo(i);
+        });
+        dotsWrap.appendChild(dot);
+        return dot;
+      });
+      track._previewDots = dots;
+      track._previewSlideCount = slides.length;
+      track._previewGoTo = goTo;
 
       function nextSlide() {
         goTo(activeIndex() + 1);
@@ -2992,6 +3128,7 @@
       }
 
       function startAutoplay() {
+        if (isModalPreview) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         if (window.matchMedia('(hover: none)').matches) return;
         stopAutoplay();
@@ -3015,6 +3152,7 @@
       track.addEventListener('pointerdown', function (e) {
         stopAutoplay();
         if (e.pointerType === 'touch') return;
+        if (isModalPreview && finePointer.matches) return;
         dragging = true;
         moved = false;
         startX = e.clientX;
@@ -3063,7 +3201,9 @@
         }
       });
 
-      const hoverRoot = preview.closest('.featured-card, .modal-media') || preview;
+      if (isModalPreview) return;
+
+      const hoverRoot = preview.closest('.featured-card') || preview;
       hoverRoot.addEventListener('mouseenter', startAutoplay);
       hoverRoot.addEventListener('mouseleave', function () {
         stopAutoplay();
@@ -3097,6 +3237,21 @@
           primary: { href: '#services', label: 'View services' },
           secondary: { href: '#contact', label: 'Get a demo' }
         },
+        huni: {
+          eyebrow: 'Client site · Live preview',
+          title: 'Huni Matcha — pop-up café site',
+          desc: 'Brand site for a Cebu matcha pop-up: drink menu, stall gallery, crew, and next-event block. Live on GitHub Pages while the custom domain is pending.',
+          tagsHtml: '<span class="tag yellow">HTML/CSS</span><span class="tag gray">Vanilla JS</span><span class="tag red">Client work</span><span class="tag blue">GitHub Pages</span>',
+          quote: '',
+          attribution: '',
+          slidesHtml:
+            '<div class="preview-slide"><picture><source srcset="img/huni.webp" type="image/webp" /><img src="img/huni.jpg" alt="Huni Matcha site — hero" width="1280" height="800" draggable="false" /></picture></div>' +
+            '<div class="preview-slide"><picture><source srcset="img/huni-2.webp" type="image/webp" /><img src="img/huni-2.jpg" alt="Huni Matcha site — ritual and menu" width="1280" height="800" draggable="false" /></picture></div>' +
+            '<div class="preview-slide"><picture><source srcset="img/huni-3.webp" type="image/webp" /><img src="img/huni-3.jpg" alt="Huni Matcha site — reviews and media" width="1280" height="800" draggable="false" /></picture></div>' +
+            '<div class="preview-slide"><picture><source srcset="img/huni-4.webp" type="image/webp" /><img src="img/huni-4.jpg" alt="Huni Matcha site — crew and next pop-up" width="1280" height="800" draggable="false" /></picture></div>',
+          primary: { href: 'https://nichoblina.github.io/huni-matcha/', label: 'Website', external: true },
+          secondary: { href: '#contact', label: 'Contact' }
+        },
         adrian: {
           eyebrow: 'Client site · Live',
           title: 'Adrian James — video editor portfolio',
@@ -3109,8 +3264,8 @@
             '<div class="preview-slide"><picture><source srcset="img/adrian-2.webp" type="image/webp" /><img src="img/adrian-2.jpg" alt="Adrian James site — about" width="1280" height="800" draggable="false" /></picture></div>' +
             '<div class="preview-slide"><picture><source srcset="img/adrian-3.webp" type="image/webp" /><img src="img/adrian-3.jpg" alt="Adrian James site — featured" width="1280" height="800" draggable="false" /></picture></div>' +
             '<div class="preview-slide"><picture><source srcset="img/adrian-4.webp" type="image/webp" /><img src="img/adrian-4.jpg" alt="Adrian James site — work catalog" width="1280" height="800" draggable="false" /></picture></div>',
-          primary: { href: 'https://adrian-james.netlify.app/', label: 'Open live site', external: true },
-          secondary: { href: '#contact', label: 'Want one like this?' }
+          primary: { href: 'https://adrian-james.netlify.app/', label: 'Website', external: true },
+          secondary: { href: '#contact', label: 'Contact' }
         }
       };
 
@@ -3184,7 +3339,11 @@
           });
         }
         secondary.href = project.secondary.href;
-        secondary.textContent = project.secondary.label;
+        if (project.secondary.href && project.secondary.href.charAt(0) === '#' && project.secondary.href.indexOf('contact') !== -1) {
+          secondary.innerHTML = contactIcon() + project.secondary.label;
+        } else {
+          secondary.textContent = project.secondary.label;
+        }
 
         backdrop.hidden = false;
         document.body.classList.add('modal-open');
